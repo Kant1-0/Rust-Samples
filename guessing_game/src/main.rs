@@ -5,43 +5,38 @@ use std::cmp::Ordering;
 use rand::Rng;
 
 fn main() {
-    println!("Guess the number!");
+	println!("Guess the number within 10 tries!");
 
-    let secret_number = rand::thread_rng().gen_range(1, 101);
+	let secret_number = rand::thread_rng().gen_range(0, 1000);
 
-    let mut i: u32 = 0;
-    let limit : u32 = 10;
+	let mut _i : u8 = 1;
 
-    loop{
-        match i {
-            10  => {
-                println!("You loose!");
-                break;
-            }
-            _   => continue,
-        }
-        println!("Please input your guess.");
+	loop{
+		if _i > 10 {
+			println!("You loose!");
+			break;
+		}
+		println!("{}. Please input your guess: ", _i);
 
-        let mut guess = String::new();
+		let mut guess = String::new();
 
-        io::stdin().read_line(&mut guess)
-            .expect("Failed to read line");
+		io::stdin().read_line(&mut guess)
+			.expect("Failed to read line");
 
-        let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_)  => continue,
-        };
+		let guess: u32 = match guess.trim().parse() {
+			Ok(num) => num,
+			Err(_)	=> continue,
+		};
 
-        println!("You guessed: {}", guess);
+		match guess.cmp(&secret_number) {
+			Ordering::Less		=> println!("Too small!\n"),
+			Ordering::Greater	=> println!("Too big!\n"),
+			Ordering::Equal		=> {
+				println!("\nYou win!");
+				break;
+			}
+		}
 
-        match guess.cmp(&secret_number) {
-            Ordering::Less      => println!("Too small!"),
-            Ordering::Greater   => println!("Too big!"),
-            Ordering::Equal     => {
-                println!("You win!");
-                break;
-            }
-        }
-        i += 1;
-    }
+		_i += 1;
+	}
 }

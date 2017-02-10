@@ -1,6 +1,6 @@
 [package]
 name = "hello_world"
 version = "0.1.0"
-authors = ["PopzeLife"]
+authors = ["PopzeLife <quentin.f.60@gmail.com>"]
 
 [dependencies]
